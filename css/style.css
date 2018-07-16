@@ -1,0 +1,186 @@
+
+/* ASIA Form */
+
+body {
+    font-family: Arial Narrow, Arial, Helvetica, sans-serif;
+}
+
+#form-wrapper {
+    width: 750px;
+}
+
+#isncsci-title {
+    font-size: 18px;
+    font-weight: bold;
+    text-align: center;
+}
+
+.rightOrLeftTitle {
+    font-weight:  bold;
+    font-size: 24px;
+    margin: 3px 0;
+}
+
+
+#rightBodyData, #leftBodyData {
+    width: 200px;
+    float: left;
+    margin: 0 10px 20px; 
+    padding: 0;
+}
+
+#form-wrapper tr.headers > td {
+    padding: 5px;
+    background-color: azure;
+}
+#form-wrapper h2 {
+    text-align: center;
+}
+#rightBodyData table, #leftBodyData table {
+    margin: 0 auto; 
+}
+#middle-column {
+    width: 300px;
+    float: left;
+    margin-top: 80px;
+}
+
+#middle-column img {
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+#rightBodyData td, #leftBodyData td {
+    border: solid black 1px;
+    text-align: center;
+}
+
+div#vac, div#dap {
+    text-align: right;
+}
+
+#commentsTitle {
+    font-weight: bold;
+}
+#commentsSubtitle {
+    font-style: italic;
+    font-size: 12px;
+}
+
+#calculateButtonWrapper {
+    margin: 20px;
+    text-align: center;
+}
+#calculateButton {
+    width: 80%;
+    height: 40px;
+    background-color: azure;
+    border-radius: 1em;
+    font-size: 16px;
+    font-weight: bold; 
+}
+
+/* Toggle switch */
+
+  .toggle-check-input {
+    width: 1px;
+    height: 1px;
+    position: absolute;
+  }
+  
+  .toggle-check-text {
+    display: inline-block;
+    position: relative;
+    text-transform: uppercase;
+    background: #CCC;
+    padding: 0.25em 0.5em 0.25em 2em;
+    border-radius: 1em;
+    min-width: 2em;
+    color: #FFF;
+    cursor: pointer;
+    transition: background-color 0.15s;
+  }
+  
+  .toggle-check-text:after {
+    content: ' ';
+    display: block;
+    background: #FFF;
+    width: 1.1em;
+    height: 1.1em;
+    border-radius: 1em;
+    position: absolute;
+    left: 0.3em;
+    top: 0.25em;
+    transition: left 0.15s, margin-left 0.15s;
+  }
+  
+  .toggle-check-text:before {
+    content: 'No';
+  }
+  
+  .toggle-check-input:checked ~ .toggle-check-text {
+    background: #8ad869;
+    padding-left: 0.5em;
+    padding-right: 2em;
+  }
+  
+  .toggle-check-input:checked ~ .toggle-check-text:before {
+    content: 'Yes';
+  }
+  
+  .toggle-check-input:checked ~ .toggle-check-text:after {
+    left: 100%;
+    margin-left: -1.4em;
+  }
+  
+
+  /* NEUROLOGICAL LEVELS */
+
+#neurologicalLevelsContainer {
+      margin: 20px 0;
+      border: solid 2px black;
+      width: 100%;
+      padding: 3px;
+      display: flex;
+  }
+#neurologicalLevelsContainer div {
+    padding: 4px;
+}
+
+table.nli {
+    margin-top: 10px;
+}
+table.nli td {
+    font-style: italic;
+    font-weight:  bold;
+    text-align: center;
+    font-size: 12px;
+    margin: 3px;
+    padding: 1px;
+    width: 20px;
+}
+td.borderOn {
+    border: solid 2px black;
+    width: 30px;
+}
+table.nli td.rowTitle {
+    width: 60px;
+    text-align: right;
+
+}
+.rowSubtitle {
+    font-style: italic;
+    font-weight: normal;
+    font-size: 0.5em;
+}
+
+.smallbold {
+    font-weight: bold;
+    font-size: 0.9em;
+}
+.flex1 {flex: 1.5;}
+.flex2 {flex: 1.8;}
+.flex3 {flex: 2;}
+.flex4 {flex: 1.4;}
+.flex4 td {text-align: right;}
+.flex5 {flex:1.4;}
