@@ -15,20 +15,20 @@ class ISNCSCI {
     generateExamObject(){
         this.exam = {
             right: {
-                motor:      getScoreSet("right", "m"),
-                lightTouch: getScoreSet("right", "lt"),
-                pinPrick:   getScoreSet("right", "pp")
+                motor:      this.getScoreSet("right", "m"),
+                lightTouch: this.getScoreSet("right", "lt"),
+                pinPrick:   this.getScoreSet("right", "pp")
             },
         
             left: {
-                motor:      getScoreSet("left", "m"),
-                lightTouch: getScoreSet("left","lt"),
-                pinPrick:   getScoreSet("left", "pp")
+                motor:      this.getScoreSet("left", "m"),
+                lightTouch: this.getScoreSet("left","lt"),
+                pinPrick:   this.getScoreSet("left", "pp")
             }, 
         
-            vac: getScore('vac'),   // voluntary anal contraction
-            dap: getScore('dap'),   // deep anal pressure
-            comments: getScore('comments'),
+            vac: this.getScore('vac'),   // voluntary anal contraction
+            dap: this.getScore('dap'),   // deep anal pressure
+            comments: this.getScore('comments'),
             results: {}             // populated with calculateScore()
         };
     }
@@ -54,11 +54,11 @@ class ISNCSCI {
         var scores = {};
         if(scoresType == "m") {
             for(i=0; i<this.algorithm.motorLevels.length;i++){
-                scores[this.algorithm.motorLevels[i]] = getScore(prefix + '-m-' + this.algorithm.motorLevels[i]);
+                scores[this.algorithm.motorLevels[i]] = this.getScore(prefix + '-m-' + this.algorithm.motorLevels[i]);
             }
         } else {
             for(i=0; i<spinalLevels.length;i++){
-                scores[this.algorithm.spinalLevels[i]] = getScore(prefix + '-' + scoresType + '-' + this.algorithm.spinalLevels[i]);
+                scores[this.algorithm.spinalLevels[i]] = this.getScore(prefix + '-' + scoresType + '-' + this.algorithm.spinalLevels[i]);
             }
         }
         return scores;
@@ -66,6 +66,9 @@ class ISNCSCI {
 
 }
 
+Number.prototype.isPreserved = function(){
+    return this > 0 ? true : false;
+}();
 
 var isncsci = new ISNCSCI();
 

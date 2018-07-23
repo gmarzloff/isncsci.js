@@ -11,8 +11,8 @@ It takes input as an exam object or JSON string
 class Algorithm {
 
     constructor(){
-        self.spinalLevels =  ['C2','C3','C4','C5','C6','C7','C8','T1','T2','T3','T4','T5','T6','T7','T8','T9','T10','T11','T12','L1','L2','L3','L4','L5','S1','S2','S3','S4-5','INT'];
-        self.motorLevels =   ['C5','C6','C7','C8','T1','L2','L3','L4','L5','S1'];
+        this.spinalLevels =  ['C2','C3','C4','C5','C6','C7','C8','T1','T2','T3','T4','T5','T6','T7','T8','T9','T10','T11','T12','L1','L2','L3','L4','L5','S1','S2','S3','S4-5','INT'];
+        this.motorLevels =   ['C5','C6','C7','C8','T1','L2','L3','L4','L5','S1'];
     }
 
     generateResultsFor(exam){
@@ -130,6 +130,7 @@ class Algorithm {
 
     identifyGrade(exam, results){
         var grade;
+        var isMotorPreserved3LevelsBelow = isMotorPreservedThreeLevelsBelowMLIs(exam, results);
 
         // Check for A
         if (exam.vac == false && exam.dap == false && exam.sensory.right.lighttouch == 0 && exam.sensory.right.pinprick == 0 && 
@@ -143,12 +144,10 @@ class Algorithm {
             grade = "E";
         }
         // Check for B: Sensory Incomplete
-        // Sensory but not motor function is preserved below the NLI and includes the sacral segments S4-5 (LT, PP or DAP)
+        // Sensory is preserved at the sacral segments S4-5 (LT, PP or DAP) but not motor function (VAC), 
         // AND no motor function preserved more than three levels below motor level on either side of the body
-        // "preserved" means 1 or better
-        else if(isSensoryPreservedBelowNLI(exam, results) && 
-                !isMotorPreservedBelowNLI(exam, results) && 
-                !isMotorPreserved3LevelsBelowMLI(exam, results)){
+        else if(isSacralSensoryPreserved(exam) && !exam.vac && 
+                !isMotorPreserved3LevelsBelow){
             grade = "B";
         }
 
@@ -157,11 +156,11 @@ class Algorithm {
         // AND has sparing of motor function > 3 levels below ipsilateral motor level on either side of the body
         // (includes key or non-key muscle functions to determine motor incomplete status).
         // Less than half of key muscle functions below the single NLI have muscle grade >= 3
-        if(exam.vac == true || (grade == "B" && isMotorPreserved3LevelsBelowMLI(exam,results))){
+        if(exam.vac || (grade == "B" && isMotorPreserved3LevelsBelow)){
 
             // Check for D: Motor Incomplete
             // Satisfies Motor Incomplete + at least half of key muscle functions below single NLI >= 3
-            if(areHalfOfKeyMusclesGreaterThanThree(exam,results)){
+            if(areHalfOfKeyMusclesGreaterThanThree(exam,results.nli)){
                 grade = "D"
             } else {
                 grade = "C"
@@ -172,25 +171,54 @@ class Algorithm {
         
     }
 
-    isSensoryPreservedBelowNLI(exam, results){
-        //checks if sensory is preserved below the NLI and includes the sacral segments S4-5 (LT, PP or DAP)
-
-        return true;
+    isSacralSensoryPreserved(exam){
+        //checks if sensory is preserved below the NLI Including the sacral segments S4-5 (LT, PP or DAP)
+        return  exam.right.lighttouch["S4-5"].isPreserved || exam.right.pinprick["S4-5"].isPreserved ||
+                exam.left.lighttouch["S4-5"].isPreserved || exam.left.pinprick["S4-5"].isPreserved || exam.dap;
     }
 
-    isMotorPreservedBelowNLI(exam, results){
+    isMotorPreservedThreeLevelsBelowMLIs(exam, results){
+         // "preserved" means 1 or better
+        var sides = ["right","left"];
+        for(j=0; j<sides.length; j++){
 
-        return true;
+            for(i = this.spinalLevels.indexOf(results.levels.sides[j].motor) + 3; i< this.spinalLevels.length-1; i++){
+                if(exam.sides[j].motor[this.spinalLevels[i]].isPreserved){
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
-    isMotorPreserved3LevelsBelowMLI(exam, results){
+    areHalfOfKeyMusclesGreaterThanThree(exam,nli){
+        // checks if at least half of key muscle functions below single NLI >= 3
+        var totalMuscleLevelsCount = 0;
+        var qualifyingMusclesCount = 0;
+        var startingMuscleLevel;
+        var indexOfNLI = this.spinalLevels.indexOf(nli);
+        
+        if(indexOfNLI < this.spinalLevels.indexOf("C5")){
+            startingMuscleLevel = "C5";
+        } else if(indexOfNLI > this.spinalLevels.indexOf("T1") && indexOfNLI < this.spinalLevels.indexOf("L2")){
+            startingMuscleLevel = "L2";
+        } else if(indexOfNLI > this.spinalLevels.indexOf("S1")){
+            return false;
+        } else {
+            startingMuscleLevel = this.spinalLevels[indexOfNLI + 1];
+        }
 
-        return true;
-    }
-
-    areHalfOfKeyMusclesGreaterThanThree(exam,results){
-
-        return true;
+        var sides = ["right","left"];
+        for(j=0; j<sides.length; j++){
+            for(i = this.motorLevels.indexOf(startingMuscleLevel); i<this.motorLevels.length; i++){
+                if(exam.sides[j].motor[this.motorLevels[i]] >= 3){
+                    qualifyingMusclesCount++;
+                }
+                totalMuscleLevelsCount++;
+            }
+        }
+       
+        return qualifyingMusclesCount >= totalMuscleLevelsCount/2;
     }
 
     identifyZPP(exam, results){
