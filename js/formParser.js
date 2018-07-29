@@ -17,19 +17,22 @@ class ISNCSCI {
             right: {
                 motor:      this.getScoreSet("right", "m"),
                 lightTouch: this.getScoreSet("right", "lt"),
-                pinPrick:   this.getScoreSet("right", "pp")
+                pinPrick:   this.getScoreSet("right", "pp"),
+                lowestNonKeyMuscle: this.getScore('RightLowestNonKeyMuscleWithMotorFunction')
             },
         
             left: {
                 motor:      this.getScoreSet("left", "m"),
                 lightTouch: this.getScoreSet("left","lt"),
-                pinPrick:   this.getScoreSet("left", "pp")
+                pinPrick:   this.getScoreSet("left", "pp"),
+                lowestNonKeyMuscle: this.getScore('LeftLowestNonKeyMuscleWithMotorFunction')
             }, 
         
-            vac: this.getScore('vac'),   // voluntary anal contraction
-            dap: this.getScore('dap'),   // deep anal pressure
-            comments: this.getScore('comments'),
-            results: {}             // populated with calculateScore()
+            vac:        this.getScore('vac'),   // voluntary anal contraction
+            dap:        this.getScore('dap'),   // deep anal pressure
+            comments:   this.getScore('comments'),
+
+            results: {}                         // populated with calculateScore()
         };
     }
 
@@ -52,6 +55,8 @@ class ISNCSCI {
         document.getElementById("dapcheck").checked = exam.dap;
 
         document.getElementById("comments").innerHTML = exam.comments;
+        document.getElementById("RightLowestNonKeyMuscleWithMotorFunction").value = exam.rightLowestNonKeyMuscleWithMotorFunction;
+        document.getElementById("LeftLowestNonKeyMuscleWithMotorFunction").value = exam.leftLowestNonKeyMuscleWithMotorFunction;
     }
 
     calculateScore(){

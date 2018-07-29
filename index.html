@@ -208,7 +208,7 @@
                 
                 <div id="vac">Voluntary Anal Contraction?<br />
                     <label class="toggle-check">
-                        <input type="checkbox" class="toggle-check-input" />
+                        <input id="vaccheck" type="checkbox" class="toggle-check-input" />
                         <span class="toggle-check-text"></span>
                     </label>
                 </div>
@@ -230,6 +230,53 @@
                 <img src="img/asia-man.jpg" /><br />
                 <span id="commentsTitle">Comments:</span> <span id="commentsSubtitle">(Non-key Muscle? Reason for NT? Pain?)</span><br />
                 <textarea id="comments" cols=45 rows=10></textarea>
+
+                <div>
+                    <table>
+                        <tr>
+                            <td>Right:</td>
+                            <td>
+
+                                <select id="RightLowestNonKeyMuscleWithMotorFunction">
+                                    <option value="0"></option>
+                                    <option value="C5">C5 - Shoulder: Flexion, extension, abduction, adduction, internal and external rotation - Elbow: Supination</option>
+                                    <option value="C6">C6 - Elbow: Pronation - Wrist: Flexion</option>
+                                    <option value="C7">C7 - Finger: Flexion at proximal joint, extension. Thumb: Flexion, extension and abduction in plane of thumb</option>
+                                    <option value="C8">C8 - Finger: Flexion at MCP joint Thumb: Opposition, adduction and abduction perpendicular to palm</option>
+                                    <option value="T1">T1 - Finger: Abduction of the index finger</option>
+                                    <option value="L2">L2 - Hip: Adduction</option>
+                                    <option value="L3">L3 - Hip: External rotation</option>
+                                    <option value="L4">L4 - Hip: Extension, abduction, internal rotation - Knee: Flexion - Ankle: Inversion and eversion - Toe: MP and IP extension</option>
+                                    <option value="L5">L5 - Hallux and Toe: DIP and PIP flexion and abduction</option>
+                                    <option value="S1">S1 - Hallux: Adduction</option>
+                                </select>
+
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>Left:</td>
+                            <td>
+                                <select id="LeftLowestNonKeyMuscleWithMotorFunction">
+                                    <option value="0"></option>
+                                    <option value="C5">C5 - Shoulder: Flexion, extension, abduction, adduction, internal and external rotation - Elbow: Supination</option>
+                                    <option value="C6">C6 - Elbow: Pronation - Wrist: Flexion</option>
+                                    <option value="C7">C7 - Finger: Flexion at proximal joint, extension. Thumb: Flexion, extension and abduction in plane of thumb</option>
+                                    <option value="C8">C8 - Finger: Flexion at MCP joint Thumb: Opposition, adduction and abduction perpendicular to palm</option>
+                                    <option value="T1">T1 - Finger: Abduction of the index finger</option>
+                                    <option value="L2">L2 - Hip: Adduction</option>
+                                    <option value="L3">L3 - Hip: External rotation</option>
+                                    <option value="L4">L4 - Hip: Extension, abduction, internal rotation - Knee: Flexion - Ankle: Inversion and eversion - Toe: MP and IP extension</option>
+                                    <option value="L5">L5 - Hallux and Toe: DIP and PIP flexion and abduction</option>
+                                    <option value="S1">S1 - Hallux: Adduction</option>
+                                </select>
+                            </td>
+                        </tr>
+
+                    </table>
+                    
+                </div>
+
 
                 <div id="calculateButtonWrapper"><button id="calculateButton">Calculate</button></div>
             </div>
@@ -429,7 +476,7 @@
 
                 <div id="dap">Deep Anal Pressure?<br />
                     <label class="toggle-check">
-                        <input type="checkbox" class="toggle-check-input" />
+                        <input id="dapcheck" type="checkbox" class="toggle-check-input" />
                         <span class="toggle-check-text"></span>
                     </label>
                 </div>

@@ -182,10 +182,16 @@ class Algorithm {
         var sides = ["right","left"];
         for(j=0; j<sides.length; j++){
 
-            for(i = this.spinalLevels.indexOf(results.levels.sides[j].motor) + 3; i< this.spinalLevels.length-1; i++){
+            for(let i = this.spinalLevels.indexOf(results.levels.sides[j].motor) + 3; i < this.spinalLevels.length-1; i++){
                 if(exam.sides[j].motor[this.spinalLevels[i]].isPreserved){
                     return true;
                 }
+            }
+
+            // now check Non-Key Muscles 
+            const nonKeyIndexInSpinalLevels = this.spinalLevels.indexOf(exam.sides[j].lowestNonKeyMuscle);
+            if(nonKeyIndexInSpinalLevels >= this.spinalLevels.indexOf(results.levels.sides[j].motor) + 3){
+                return true;
             }
         }
         return false;
@@ -233,7 +239,7 @@ class Algorithm {
     }
 
 
-    // TODO: handle NT, ND levels, non-key motor levels
+    // TODO: handle NT, ND levels
     
 
 }
