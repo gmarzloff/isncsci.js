@@ -33,6 +33,27 @@ class ISNCSCI {
         };
     }
 
+    // populate the form with sample data
+    populateFormWith(exam) {
+        console.log(exam);
+        for(let i=0; i < this.algorithm.motorLevels.length; i++){
+            document.getElementById("r-m-"+this.algorithm.motorLevels[i]).value = exam.right.motor[this.algorithm.motorLevels[i]];
+            document.getElementById("l-m-"+this.algorithm.motorLevels[i]).value = exam.left.motor[this.algorithm.motorLevels[i]];
+        }
+
+        for(let i=0; i < this.algorithm.spinalLevels.length - 1; i++){
+            document.getElementById("r-lt-"+this.algorithm.spinalLevels[i]).value = exam.right.lightTouch[this.algorithm.spinalLevels[i]];
+            document.getElementById("r-pp-"+this.algorithm.spinalLevels[i]).value = exam.right.pinPrick[this.algorithm.spinalLevels[i]];
+            document.getElementById("l-lt-"+this.algorithm.spinalLevels[i]).value = exam.left.lightTouch[this.algorithm.spinalLevels[i]];
+            document.getElementById("l-pp-"+this.algorithm.spinalLevels[i]).value = exam.left.pinPrick[this.algorithm.spinalLevels[i]];
+        }
+
+        document.getElementById("vaccheck").checked = exam.vac;
+        document.getElementById("dapcheck").checked = exam.dap;
+
+        document.getElementById("comments").innerHTML = exam.comments;
+    }
+
     calculateScore(){
         this.exam.results = this.algorithm.generateResultsFor(this.exam);
     }
@@ -72,6 +93,15 @@ Number.prototype.isPreserved = function(){
 
 var isncsci = new ISNCSCI();
 
+
+// HTML Form Functions
+
 document.getElementById("calculateButton").onclick = function() {
     isncsci.generateExamObject();
 };
+
+for(let i=1;i<=5;i++){
+    document.getElementById("test-scores-"+i).onclick = function(){ 
+        isncsci.populateFormWith(sampleExams[i-1]);
+    };
+}
