@@ -19,11 +19,10 @@ class Algorithm {
         var results = {};
 
         var sides = ["right","left"];
-        for(i=0; i<sides.length; i++){
-           
+        for(var i=0; i<sides.length; i++){
             // 1. Identify sensory levels
             var touchtype = ["lighttouch", "pinprick"];
-            for(j=0; j<touchtype.length;j++){
+            for(var j=0; j<touchtype.length;j++){
                 results.levels[sides[i]].touchtype[j] = getMostCaudalIntactSensory(exam[sides[i]].touchtype[j]);
             }
 
@@ -61,7 +60,7 @@ class Algorithm {
 
         //  5. zpp 
         results.zpp = identifyZPP(exam, results);
-
+        
         return results;
     }
     
@@ -69,7 +68,7 @@ class Algorithm {
     getMostCaudalIntactSensory(data){
         var mostCaudalIntact = 'C1';
 
-        for(i=0; i<this.spinalLevels.length - 1; i++){ // -1 to exclude 'INT'
+        for(var i=0; i<this.spinalLevels.length - 1; i++){ // -1 to exclude 'INT'
             if(data[this.spinalLevels[i]] == 2){
                 mostCaudalIntact = this.spinalLevels[i];
             } else {
@@ -84,7 +83,7 @@ class Algorithm {
     // receives light touch and pinprick caudal levels and gets most rostral one
     getRostralLevelFrom(data){
         var arr =[];
-        for(i=0; i<data.length;i++){
+        for(var i=0; i<data.length;i++){
             arr[i]= self.spinalLevels.indexOf(data[i]);
         }
         return Math.min(...arr);
@@ -95,7 +94,7 @@ class Algorithm {
         // find most caudal level of 3 or 4 while all rostral levels to it are 5
         var motorLevel;
 
-        for(i=0; i<this.motorLevels.length; i++){
+        for(var i=0; i<this.motorLevels.length; i++){
 
             if(data[this.motorLevels[i]]=="5" || data[this.motorLevels[i]]=="5*") {
                 motorLevel = this.motorLevels[i];
@@ -180,7 +179,7 @@ class Algorithm {
     isMotorPreservedThreeLevelsBelowMLIs(exam, results){
          // "preserved" means 1 or better
         var sides = ["right","left"];
-        for(j=0; j<sides.length; j++){
+        for(var j=0; j<sides.length; j++){
 
             for(let i = this.spinalLevels.indexOf(results.levels.sides[j].motor) + 3; i < this.spinalLevels.length-1; i++){
                 if(exam.sides[j].motor[this.spinalLevels[i]].isPreserved){
@@ -215,7 +214,7 @@ class Algorithm {
         }
 
         var sides = ["right","left"];
-        for(j=0; j<sides.length; j++){
+        for(var j=0; j<sides.length; j++){
             for(i = this.motorLevels.indexOf(startingMuscleLevel); i<this.motorLevels.length; i++){
                 if(exam.sides[j].motor[this.motorLevels[i]] >= 3){
                     qualifyingMusclesCount++;
