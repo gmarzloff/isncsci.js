@@ -28,11 +28,11 @@ class ISNCSCI {
                 lowestNonKeyMuscle: this.getScore('LeftLowestNonKeyMuscleWithMotorFunction')
             }, 
         
-            vac:        this.getScore('vac'),   // voluntary anal contraction
-            dap:        this.getScore('dap'),   // deep anal pressure
             comments:   this.getScore('comments'),
 
             results: {}                         // populated with calculateScore()
+            vac:        this.getToggleState('vac-check'),   // voluntary anal contraction
+            dap:        this.getToggleState('dap-check'),   // deep anal pressure
         };
     }
 
@@ -51,8 +51,8 @@ class ISNCSCI {
             document.getElementById("l-pp-"+this.algorithm.spinalLevels[i]).value = exam.left.pinPrick[this.algorithm.spinalLevels[i]];
         }
 
-        document.getElementById("vaccheck").checked = exam.vac;
-        document.getElementById("dapcheck").checked = exam.dap;
+        document.getElementById("vac-check").checked = exam.vac;
+        document.getElementById("dap-check").checked = exam.dap;
 
         document.getElementById("comments").innerHTML = exam.comments;
         document.getElementById("RightLowestNonKeyMuscleWithMotorFunction").value = exam.rightLowestNonKeyMuscleWithMotorFunction;
@@ -73,17 +73,21 @@ class ISNCSCI {
         }
     }
 
+    getToggleState(el) {
+        return document.getElementById(el).checked;
+    }
+
     // side "left" | "right"
     // scoresType "m" | "lt" | "pp" for motor, light touch, and pinprick
     getScoreSet(side,scoresType) {
         var prefix = side == "left" ? "l" : "r";
         var scores = {};
         if(scoresType == "m") {
-            for(i=0; i<this.algorithm.motorLevels.length;i++){
+            for(var i=0; i<this.algorithm.motorLevels.length;i++){
                 scores[this.algorithm.motorLevels[i]] = this.getScore(prefix + '-m-' + this.algorithm.motorLevels[i]);
             }
         } else {
-            for(i=0; i<spinalLevels.length;i++){
+            for(var i=0; i<this.algorithm.spinalLevels.length;i++){
                 scores[this.algorithm.spinalLevels[i]] = this.getScore(prefix + '-' + scoresType + '-' + this.algorithm.spinalLevels[i]);
             }
         }
