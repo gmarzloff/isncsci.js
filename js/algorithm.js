@@ -99,6 +99,9 @@ class Algorithm {
         //  4. Identify AIS Grade
         results.grade = identifyGrade(exam, results);
 
+        //  5. Identify Complete Or Incomplete
+        results.complete = this.getCompletenessLetter(results.grade);
+
         //  5. zpp 
         results.zpp = identifyZPP(exam, results);
         
@@ -265,6 +268,16 @@ class Algorithm {
         }
        
         return qualifyingMusclesCount >= totalMuscleLevelsCount/2;
+    }
+
+    getCompletenessLetter(grade){
+        if(grade == "A") {
+            return "C";
+        } else if (grade == "B" || grade == "C" || grade == "D" || grade == "E" ){
+            return "I";
+        } else { 
+            return "NA";
+        }
     }
 
     identifyZPP(exam, results){
