@@ -97,14 +97,14 @@ class Algorithm {
         ]);
 
         //  4. Identify AIS Grade
-        results.grade = identifyGrade(exam, results);
+        results.grade = this.identifyGrade(exam, results);
 
         //  5. Identify Complete Or Incomplete
         results.complete = this.getCompletenessLetter(results.grade);
 
         //  5. zpp 
-        results.zpp = identifyZPP(exam, results);
-        
+        results.zpp = this.identifyZPP(exam, results);
+
         return results;
     }
     
@@ -113,7 +113,7 @@ class Algorithm {
         var mostCaudalIntact = 'C1';
 
         for(var i=0; i<this.spinalLevels.length - 1; i++){ // -1 to exclude 'INT'
-            if(data[this.spinalLevels[i]] == 2){
+            if(data[this.spinalLevels[i]] == "2"){
                 mostCaudalIntact = this.spinalLevels[i];
             } else {
                 return mostCaudalIntact;
@@ -127,10 +127,10 @@ class Algorithm {
     // receives light touch and pinprick caudal levels and gets most rostral one
     getRostralLevelFrom(data){
         var arr =[];
-        for(var i=0; i<data.length;i++){
-            arr[i]= self.spinalLevels.indexOf(data[i]);
+        for(var i=0; i<data.length; i++){
+            arr[i]= this.spinalLevels.indexOf(data[i]);
         }
-        return Math.min(...arr);
+        return this.spinalLevels[Math.min(...arr)];
    }
 
     getMotorLevelOneSide(data, _overallSensoryLevel){
@@ -154,18 +154,18 @@ class Algorithm {
                 var indexOfCurrentLevelInSpinalLevelsArray = this.spinalLevels.indexOf(this.motorLevels[i]);
                 var indexOfOverallSensoryLevelnSpinalLevelsArray = this.spinalLevels.indexOf(_overallSensoryLevel);
 
-                // check if the sensory level is 1 above, equal or caudal to current level
+                // check if the spinal level is 1 above, equal or caudal to current level
                 if(indexOfOverallSensoryLevelnSpinalLevelsArray >= indexOfCurrentLevelInSpinalLevelsArray - 1){
                     if (data[this.motorLevels[i]] >= 3) {
                         motorLevel = this.motorLevels[i];
                     } else {
-                        motorLevel = indexOfCurrentLevelInSpinalLevelsArray - 1;
+                        motorLevel = this.spinalLevels[indexOfCurrentLevelInSpinalLevelsArray - 1];
                     }
                 } else {
                     // sensory level is more than one level rostral to current level
                     motorLevel = _overallSensoryLevel;
                 }
-            } 
+            }
         }
         return motorLevel;
     }
@@ -173,7 +173,7 @@ class Algorithm {
 
     identifyGrade(exam, results){
         var grade;
-        var isMotorPreserved3LevelsBelow = isMotorPreservedThreeLevelsBelowMLIs(exam, results);
+        var isMotorPreserved3LevelsBelow = this.isMotorPreservedThreeLevelsBelowMLIs(exam, results);
 
         // Check for A
         if (exam.vac == false && exam.dap == false && exam.right.lightTouch["S4-5"] == 0 && exam.right.pinPrick["S4-5"] == 0 && 
@@ -189,7 +189,7 @@ class Algorithm {
         // Check for B: Sensory Incomplete
         // Sensory is preserved at the sacral segments S4-5 (LT, PP or DAP) but not motor function (VAC), 
         // AND no motor function preserved more than three levels below motor level on either side of the body
-        else if(isSacralSensoryPreserved(exam) && !exam.vac && 
+        else if(this.isSacralSensoryPreserved(exam) && !exam.vac && 
                 !isMotorPreserved3LevelsBelow){
             grade = "B";
         }
@@ -203,7 +203,7 @@ class Algorithm {
 
             // Check for D: Motor Incomplete
             // Satisfies Motor Incomplete + at least half of key muscle functions below single NLI >= 3
-            if(areHalfOfKeyMusclesGreaterThanThree(exam,results.nli)){
+            if(this.areHalfOfKeyMusclesGreaterThanThree(exam,results.nli)){
                 grade = "D"
             } else {
                 grade = "C"
@@ -259,8 +259,9 @@ class Algorithm {
 
         var sides = ["right","left"];
         for(var j=0; j<sides.length; j++){
-            for(i = this.motorLevels.indexOf(startingMuscleLevel); i<this.motorLevels.length; i++){
-                if(exam.sides[j].motor[this.motorLevels[i]] >= 3){
+            for(var i = this.motorLevels.indexOf(startingMuscleLevel); i<this.motorLevels.length; i++){
+
+                if(exam[sides[j]].motor[this.motorLevels[i]] >= 3){
                     qualifyingMusclesCount++;
                 }
                 totalMuscleLevelsCount++;
