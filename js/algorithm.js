@@ -281,17 +281,47 @@ class Algorithm {
     }
 
     identifyZPP(exam, results){
-        if(results.grade != "A"){
-            return {"right": { "sensory" : "NA", "motor": "NA"},
-                     "left": {"sensory": "NA", "motor": "NA"}};
-        } else {
 
-            // TOOD complete
-            return {};
+        var zpp_temp = {
+            "right":    {"sensory": "NA", "motor": "NA"},
+            "left":     {"sensory": "NA", "motor": "NA"}
+        };
+
+        if(results.grade == "A"){
+            // find most caudal preservation
+            var sides = ["right","left"];
+            
+            lrloop:
+            for(var j=0; j<sides.length; j++){ 
+        
+                // Find most caudal key muscle preserved. ZPP = that one or MLI if MLI is more caudal.
+                motorloop:
+                for(var i=this.motorLevels.length-1; i>=0; i--){
+                    if(exam[sides[j]].motor[this.motorLevels[i]] > 0){
+
+                        // Is the motor level of impairment more caudal than this preserved level?
+                        var mliIndexInSpinalLevels   = this.spinalLevels.indexOf(results.levels[sides[j]].motor);
+                        var currentZPPInSpinalLevels = this.spinalLevels.indexOf(this.motorLevels[i]);
+                        zpp_temp[sides[j]].motor     = mliIndexInSpinalLevels > currentZPPInSpinalLevels ? results.levels[sides[j]].motor : this.motorLevels[i];
+                        break motorloop;
+                    }
+                }
+                
+                sensoryloop:
+                for(var i=this.spinalLevels.length-2; i>=0; i--){   // length-2 to skip "INT" element
+                    if(exam[sides[j]].lightTouch[this.spinalLevels[i]] > 0 || exam[sides[j]].pinPrick[this.spinalLevels[i]] > 0){
+                        zpp_temp[sides[j]].sensory = this.spinalLevels[i];
+                        break sensoryloop;
+                    }
+                }
+            }
+
         }
+
+        return zpp_temp;
     }
 
-
+    
     // TODO: handle NT, ND levels
     
 
