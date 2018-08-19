@@ -96,9 +96,6 @@ class ISNCSCI {
 
 }
 
-Number.prototype.isPreserved = function(){
-    return this > 0 ? true : false;
-}();
 
 var isncsci = new ISNCSCI();
 

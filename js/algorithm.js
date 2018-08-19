@@ -8,6 +8,13 @@ This file contains the scoring algorithm.
 It takes input as an exam object or JSON string
 */
 
+
+String.prototype.isPreserved = function(){
+    var n = Number(this);
+    return n > 0 ? true : false;
+}();
+
+
 class Algorithm {
 
     constructor(){
