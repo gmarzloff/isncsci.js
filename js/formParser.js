@@ -89,16 +89,32 @@ class ISNCSCI {
         return scores;
     }
 
+
+    outputResults(){
+        document.getElementById('out-nl-r-sensory').innerHTML   = this.exam.results.levels.right.sensory;
+        document.getElementById('out-nl-l-sensory').innerHTML   = this.exam.results.levels.left.sensory;
+        document.getElementById('out-nl-r-motor').innerHTML     = this.exam.results.levels.right.motor;
+        document.getElementById('out-nl-l-motor').innerHTML     = this.exam.results.levels.left.motor;
+
+        document.getElementById('out-nli').innerHTML            = this.exam.results.nli;
+        document.getElementById('out-ais').innerHTML            = this.exam.results.grade;
+        document.getElementById('out-complete').innerHTML       = this.exam.results.complete;
+
+        document.getElementById('out-zpp-r-sensory').innerHTML  = this.exam.results.zpp.right.sensory;
+        document.getElementById('out-zpp-l-sensory').innerHTML  = this.exam.results.zpp.left.sensory;
+        document.getElementById('out-zpp-r-motor').innerHTML    = this.exam.results.zpp.right.motor;
+        document.getElementById('out-zpp-l-motor').innerHTML    = this.exam.results.zpp.left.motor;
+    }
 }
 
-
 var isncsci = new ISNCSCI();
-
 
 // HTML Form Functions
 
 document.getElementById("calculateButton").onclick = function() {
     isncsci.generateExamObject();
+    isncsci.outputResults();
+    // console.log(isncsci.exam.results);
 };
 
 for(let i=1;i<=5;i++){
