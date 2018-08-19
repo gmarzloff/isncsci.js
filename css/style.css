@@ -172,10 +172,12 @@ table.nli td {
     padding: 1px;
     width: 20px;
 }
-td.borderOn {
+td.containsOutput {
     border: solid 2px black;
     width: 30px;
+    text-align: center;
 }
+
 table.nli td.rowTitle {
     width: 60px;
     text-align: right;
