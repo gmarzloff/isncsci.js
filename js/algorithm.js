@@ -223,17 +223,43 @@ class Algorithm {
     isMotorPreservedThreeLevelsBelowMLIs(exam, results){
          // "preserved" means 1 or better
         var sides = ["right","left"];
-        for(var j=0; j<sides.length; j++){
 
-            for(let i = this.spinalLevels.indexOf(results.levels.sides[j].motor) + 3; i < this.spinalLevels.length-1; i++){
-                if(exam.sides[j].motor[this.spinalLevels[i]].isPreserved){
+        var c5Index = this.spinalLevels.indexOf("C5");
+        var t1Index = this.spinalLevels.indexOf("T1");
+        var l2Index = this.spinalLevels.indexOf("L2");
+        var s1Index = this.spinalLevels.indexOf("S1");
+
+        for(var j=0; j<sides.length; j++){
+            
+            var threeSpinalLevelsDownIndex = this.spinalLevels.indexOf(results.levels[sides[j]].motor) + 3;
+            var motorLevelsToEvaluate      = this.motorLevels;
+
+            if(threeSpinalLevelsDownIndex > this.spinalLevels.length-1){
+                threeSpinalLevelsDownIndex = this.spinalLevels.length-1;
+            }
+
+            if(threeSpinalLevelsDownIndex <= c5Index){
+                // evaluate all key motor Levels without slicing motorLevelsToEvaluate[]
+
+            } else if ((threeSpinalLevelsDownIndex > c5Index && threeSpinalLevelsDownIndex <= t1Index) ||
+                        (threeSpinalLevelsDownIndex >= l2Index && threeSpinalLevelsDownIndex <= s1Index)){
+                
+                // take the subset of motorLevels caudal to threeSpinalLevelsDownIndex
+                var equivalentMotorLevelIndex = this.motorLevels.indexOf(this.spinalLevels[threeSpinalLevelsDownIndex]);
+                motorLevelsToEvaluate = motorLevelsToEvaluate.slice(equivalentMotorLevelIndex);
+
+            }   // if threeSpinalLevelsDownIndex is caudal to S1, there are no motor levels left to test for preservation. 
+                // Thus the AIS cannot be C, unless VAC is preserved.
+
+            for(var i=0; i < motorLevelsToEvaluate.length; i++){
+                if(motorLevelsToEvaluate[i].isPreserved){
                     return true;
                 }
             }
 
-            // now check Non-Key Muscles 
-            const nonKeyIndexInSpinalLevels = this.spinalLevels.indexOf(exam.sides[j].lowestNonKeyMuscle);
-            if(nonKeyIndexInSpinalLevels >= this.spinalLevels.indexOf(results.levels.sides[j].motor) + 3){
+            // finally check Non-Key Muscles 
+            const nonKeyIndexInSpinalLevels = this.spinalLevels.indexOf(exam[sides[j]].lowestNonKeyMuscle);
+            if(nonKeyIndexInSpinalLevels >= threeSpinalLevelsDownIndex){
                 return true;
             }
         }
