@@ -8,6 +8,40 @@ This file contains the scoring algorithm.
 It takes input as an exam object or JSON string
 */
 
+class Results {
+
+    constructor(){
+
+        this.levels = {
+            right: {
+                lightTouch:         "",
+                pinPrick:           "",
+                motor:              "",
+                sensory:            "",
+                lowestNonKeyMuscle: "",
+            },
+        
+            left: {
+                lightTouch:         "",
+                pinPrick:           "",
+                motor:              "",
+                sensory:            "",
+                lowestNonKeyMuscle: "",
+            },
+
+            overall: {
+                sensory:            "",
+                motor:              ""
+            }
+        };
+
+        this.nli = "";
+        this.grade =  "";
+        this.zpp = {};
+        this.complete = "";
+    }
+}
+
 
 String.prototype.isPreserved = function(){
     var n = Number(this);
