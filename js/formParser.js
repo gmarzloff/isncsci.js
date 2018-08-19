@@ -28,17 +28,16 @@ class ISNCSCI {
                 lowestNonKeyMuscle: this.getScore('LeftLowestNonKeyMuscleWithMotorFunction')
             }, 
         
-            comments:   this.getScore('comments'),
-
-            results: {}                         // populated with calculateScore()
             vac:        this.getToggleState('vac-check'),   // voluntary anal contraction
             dap:        this.getToggleState('dap-check'),   // deep anal pressure
+            comments:   this.getScore('comments')
         };
+        this.exam.results =  this.algorithm.generateResultsFor(this.exam)     // runs scoring algorithm
     }
 
     // populate the form with sample data
     populateFormWith(exam) {
-        console.log(exam);
+        
         for(let i=0; i < this.algorithm.motorLevels.length; i++){
             document.getElementById("r-m-"+this.algorithm.motorLevels[i]).value = exam.right.motor[this.algorithm.motorLevels[i]];
             document.getElementById("l-m-"+this.algorithm.motorLevels[i]).value = exam.left.motor[this.algorithm.motorLevels[i]];
@@ -57,10 +56,6 @@ class ISNCSCI {
         document.getElementById("comments").innerHTML = exam.comments;
         document.getElementById("RightLowestNonKeyMuscleWithMotorFunction").value = exam.rightLowestNonKeyMuscleWithMotorFunction;
         document.getElementById("LeftLowestNonKeyMuscleWithMotorFunction").value = exam.leftLowestNonKeyMuscleWithMotorFunction;
-    }
-
-    calculateScore(){
-        this.exam.results = this.algorithm.generateResultsFor(this.exam);
     }
 
     // Convenience function to pull raw score from DOM
