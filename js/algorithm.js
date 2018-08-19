@@ -300,7 +300,7 @@ class Algorithm {
     getCompletenessLetter(grade){
         if(grade == "A") {
             return "C";
-        } else if (grade == "B" || grade == "C" || grade == "D" || grade == "E" ){
+        } else if (grade == "B" || grade == "C" || grade == "D"){
             return "I";
         } else { 
             return "NA";
