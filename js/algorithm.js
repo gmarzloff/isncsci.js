@@ -57,24 +57,24 @@ class Algorithm {
     }
 
     generateResultsFor(exam){
-        var results = {};
+
+        var results = new Results();
 
         var sides = ["right","left"];
         for(var i=0; i<sides.length; i++){
             // 1. Identify sensory levels
-            var touchtype = ["lighttouch", "pinprick"];
+            var touchtype = ["lightTouch", "pinPrick"];
             for(var j=0; j<touchtype.length;j++){
-                results.levels[sides[i]].touchtype[j] = getMostCaudalIntactSensory(exam[sides[i]].touchtype[j]);
+                results.levels[sides[i]][touchtype[j]] = this.getMostCaudalIntactSensory(exam[sides[i]][touchtype[j]]);
             }
 
             results.levels[sides[i]].sensory = this.getRostralLevelFrom([
-                results.levels[sides[i]].lighttouch,
-                results.levels[sides[i]].pinprick
+                results.levels[sides[i]].lightTouch,
+                results.levels[sides[i]].pinPrick
             ]);
 
             // 2. Identify motor levels
             results.levels[sides[i]].motor = this.getMotorLevelOneSide(exam[sides[i]].motor, results.levels[sides[i]].sensory);
-
         }
         
         results.levels.overall.sensory = this.getRostralLevelFrom([
@@ -173,8 +173,8 @@ class Algorithm {
         var isMotorPreserved3LevelsBelow = isMotorPreservedThreeLevelsBelowMLIs(exam, results);
 
         // Check for A
-        if (exam.vac == false && exam.dap == false && exam.sensory.right.lighttouch == 0 && exam.sensory.right.pinprick == 0 && 
-                exam.sensory.left.lighttouch == 0 && exam.sensory.left.pinprick == 0){
+        if (exam.vac == false && exam.dap == false && exam.right.lightTouch["S4-5"] == 0 && exam.right.pinPrick["S4-5"] == 0 && 
+                exam.left.lightTouch["S4-5"] == 0 && exam.left.pinPrick["S4-5"] == 0){
             grade = "A";
 
         } 
@@ -213,8 +213,8 @@ class Algorithm {
 
     isSacralSensoryPreserved(exam){
         //checks if sensory is preserved below the NLI Including the sacral segments S4-5 (LT, PP or DAP)
-        return  exam.right.lighttouch["S4-5"].isPreserved || exam.right.pinprick["S4-5"].isPreserved ||
-                exam.left.lighttouch["S4-5"].isPreserved || exam.left.pinprick["S4-5"].isPreserved || exam.dap;
+        return  exam.right.lightTouch["S4-5"].isPreserved || exam.right.pinPrick["S4-5"].isPreserved ||
+                exam.left.lightTouch["S4-5"].isPreserved || exam.left.pinPrick["S4-5"].isPreserved || exam.dap;
     }
 
     isMotorPreservedThreeLevelsBelowMLIs(exam, results){
